@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'phonenumber_field',
     'yugioh_tournament_app.apps.YugiohTournamentAppConfig',
     'django.contrib.admin',
     'django.contrib.auth',

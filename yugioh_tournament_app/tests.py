@@ -59,3 +59,71 @@ class CardModelTests(TestCase):
         test_card.level=0
         with self.assertRaises(exceptions.ValidationError):
             test_card.full_clean()
+            
+class PlayerTests(TestCase):
+    
+    def __create_test_player():
+        return Player(first_name='Carlos Mauricio',
+            last_name='Reyes', second_last_name='Escudero',
+            province='Sancti Spiritu', municipality='Majayigua',
+            phone='+53 58607451', address='Sukasa')
+    
+    def test_phone_is_not_real(self):
+        '''
+        Checks the phone number is not something dumb like +53 12345678
+        '''
+        test_player=PlayerTests.__create_test_player()
+        test_player.phone='+53 12345678'
+        with self.assertRaises(exceptions.ValidationError):
+            test_player.full_clean()
+        
+    def test_phone_is_not_giverish(self):
+        '''
+        Checks the phone number is made of digits
+        '''
+        test_player=PlayerTests.__create_test_player()
+        test_player.phone='salchichas'
+        with self.assertRaises(exceptions.ValidationError):
+            test_player.full_clean()
+            
+    def test_phone_is_not_too_long(self):
+        '''
+        Checks the phonenumber is not too long for a phonenumber
+        '''
+        test_player=PlayerTests.__create_test_player()
+        test_player.phone='+53413123424532645374374'
+        with self.assertRaises(exceptions.ValidationError):
+            test_player.full_clean()
+            
+    def test_phone_has_international_prefix(self):
+        '''
+        Checks phonenumber has the + prefix
+        '''
+        test_player=PlayerTests.__create_test_player()
+        test_player.phone='5355641257'
+        with self.assertRaises(exceptions.ValidationError):
+            test_player.full_clean()
+            
+    def test_phone_is_optional(self):
+        '''
+        Checks the phone number can be empty
+        '''
+        test_player=PlayerTests.__create_test_player()
+        test_player.phone=''
+        test_player.full_clean()
+        
+    def test_fullname_works(self):
+        '''
+        Checks the returning of the players fullname is correct
+        '''
+        test_player=PlayerTests.__create_test_player()
+        self.assertEqual(test_player.fullname(),'Carlos Mauricio Reyes Escudero')
+        
+    def test_fullname_has_no_whitespace(self):
+        '''
+        Checks the fullname does not return whitespace
+        '''
+        test_player=PlayerTests.__create_test_player()
+        test_player.first_name='               Carlos        Mauricio   '
+        self.assertEqual(test_player.fullname(),'Carlos Mauricio Reyes Escudero')    
+        
