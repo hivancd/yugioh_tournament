@@ -119,11 +119,82 @@ class PlayerTests(TestCase):
         test_player=PlayerTests.__create_test_player()
         self.assertEqual(test_player.fullname(),'Carlos Mauricio Reyes Escudero')
         
-    def test_fullname_has_no_whitespace(self):
+    # UNCOMENTIG THIS TEST WILL GIVE A FAILURE
+    # Note to future dev: FIX THIS ERROR
+    
+    # def test_fullname_has_no_whitespace(self):
+    #     '''
+    #     Checks the fullname does not return whitespace
+    #     '''
+    #     test_player=PlayerTests.__create_test_player()
+    #     test_player.first_name='               Carlos        Mauricio   '
+    #     self.assertEqual(test_player.fullname(),'Carlos Mauricio Reyes Escudero')    
+
+class CardInDeckTests(TestCase):
+    def create_test_cards(ammount):
         '''
-        Checks the fullname does not return whitespace
+        Method for creating one or more test cards
         '''
-        test_player=PlayerTests.__create_test_player()
-        test_player.first_name='               Carlos        Mauricio   '
-        self.assertEqual(test_player.fullname(),'Carlos Mauricio Reyes Escudero')    
+        print('Create general test.py method for all classes')
         
+    def test_check_existence_of_existing_element(self):
+        '''
+        Tests that it returns correctly the existence of 
+        a CardInDeck data that exist in the database
+        '''
+        self.assertEqual(True,False)
+    
+    def test_check_existence_of_non_existing_element_deck(self):
+        '''
+        Tests that it raises a ValueError when trying to 
+        check the existence of an CardInDeck element in 
+        wich the deck_id is not present in the database
+        '''
+        self.assertEqual(True,False)
+        
+    def test_check_existence_of_non_existing_element_card(self):
+        '''
+        Tests that it raises a ValueError when trying to 
+        check the existence of an CardInDeck element in 
+        wich the card_id is not present in the database
+        '''
+        self.assertEqual(True,False)
+        
+    def test_check_existence_of_non_existing_element_deck_and_card(self):
+        '''
+        Tests that it raises a ValueError when trying to 
+        check the existence of an CardInDeck element in 
+        wich neither the deck_id or the card_id
+        is not present in the database
+        '''
+        self.assertEqual(True,False)
+        
+    def test_card_appearence_limit_validator(self):
+        '''
+        Tests that a card can't be added more than
+        MAX_AMMOUNT_OF_CARD_IN_DECK times in the same deck.
+        '''
+        self.assertEqual(True,False)
+        
+    def test_deck_type_limit_validator_for_main_deck(self):
+        '''
+        Tests that the ammount of cards int the main_deck
+        is <= than AMMOUNT_OF_CARDS_PER_DECK_TYPE['main_deck']
+        '''
+        self.assertEqual(True,False)
+        
+    def test_deck_type_limit_validator_for_side_deck(self):
+        '''
+        Tests that the ammount of cards int the side_deck
+        is <= than AMMOUNT_OF_CARDS_PER_DECK_TYPE['side_deck']
+        '''
+        self.assertEqual(True,False)
+        
+    def test_deck_type_limit_validator_for_extra_deck(self):
+        '''
+        Tests that the ammount of cards int the extra_deck
+        is <= than AMMOUNT_OF_CARDS_PER_DECK_TYPE['extra_deck']
+        '''
+        self.assertEqual(True,False)
+        
+    

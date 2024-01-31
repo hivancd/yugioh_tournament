@@ -73,8 +73,6 @@ class MonsterCard(models.Model):
         ]
 
 class Player(models.Model):
-    #De los jugadores se quiere guardar el nombre completo, municipio, provincia, teléfono (opcional) y la dirección
-    
     def is_valid_phonenumber(phone):
         if phone:
             try:
@@ -99,39 +97,6 @@ class Player(models.Model):
 class Deck(models.Model): 
     deck_name=models.CharField(max_length=200)
     cards_in_deck=models.ManyToManyField(Card,through='CardInDeck',blank=True)
-    # main_deck_size=models.PositiveIntegerField(
-    #     validators=[
-    #         MaxValueValidator(60),
-    #     ]
-    # )
-    # side_deck_size=models.PositiveIntegerField(
-    #     validators=[
-    #         MaxValueValidator(15),
-    #     ]
-    # )
-    # extra_deck_size=models.PositiveIntegerField(
-    #     validators=[
-    #         MaxValueValidator(15),
-    #     ]
-    # )
-    
-    # def get_card_ammount(self,deck_type=''):
-    #     '''
-    #     This function returns the ammount of cards in a deck.
-    #     The parameter deck_type can be passed to get the ammount of cards 
-    #     of an specific deck type (Ex: main_deck)
-    #     '''
-    #     # print(f'in get_card_ammount deck_type=={deck_type}')
-    #     print(self.cards_in_deck.filter(deck_type=deck_type))
-    #     if deck_type=='':
-    #         print('first if')
-    #         return len(self.cards_in_deck.all())
-    #     else:
-    #         try:
-    #             return len(self.cards_in_deck.filter(deck_type=deck_type))
-    #         except:
-    #             raise ValueError('Received an unexisting deck type')
-            
     def is_valid_to_play(self):
         return CardInDeck.objects.filter(deck=self,deck_type='main_deck').count()>=CardInDeck.MIN_MAIN_DECK_SIZE
     
@@ -156,7 +121,7 @@ class CardInDeck(models.Model): # TEST PENDING
     card=models.ForeignKey(Card,on_delete=models.CASCADE)
     deck=models.ForeignKey(Deck,on_delete=models.CASCADE)
     
-    def card_in_deck_validator(self): # TEST PENDING
+    def card_appearence_limit_validator(self): # TEST PENDING
         '''
         Checks if the given card has reached the limit on the deck.
         '''
@@ -181,10 +146,13 @@ class CardInDeck(models.Model): # TEST PENDING
             raise ValueError(f'There is no element with id=={card_id} in the table Card.')
         
     def check_validations(card_id,deck_id,deck_type):# TEST PENDING
+        '''
+        Runs all validation methods for to be inserted CardInDeck data
+        '''
         CardInDeck.check_existence(card_id,deck_id)
         queryset = CardInDeck.objects.filter(card=card_id,deck=deck_id)
         if queryset.exists():
-            queryset[0].card_in_deck_validator()
+            queryset[0].card_appearence_limit_validator()
             deck_type_queryset=queryset.filter(deck_type=deck_type)
             if deck_type_queryset.exists():
                 deck_type_queryset[0].deck_type_limit_validator()
