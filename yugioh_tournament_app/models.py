@@ -22,7 +22,8 @@ class Player(models.Model):
         Player.is_valid_phonenumber(phone)
         p = Player(first_name=first_name,last_name=last_name,second_last_name=second_last_name,province=province,municipality=municipality,phone=phone,address=address)
         p.save()
-        
+    
+    
     def is_valid_phonenumber(phone):
         if phone:
             try:
@@ -60,8 +61,15 @@ class Tournament(models.Model):
     start_datetime=models.DateTimeField()
     address=models.CharField(max_length=200)
     
+    def __str__(self) -> str:
+        return self.tournament_name
+    
+    def insert_tournament(name,start_datetime,address):
+        t=Tournament(tournament_name=name,start_datetime=start_datetime,address=address)
+        t.save()
+    
 class TournamentParticipant(models.Model): # TEST PENDING
-    tournament=models.ManyToManyField(Tournament)
+    tournament=models.ManyToManyField(Tournament, related_name='participants')
     deck=models.ManyToManyField(Deck)
     inscription_date=models.DateTimeField(default=dt.datetime.now())
     
@@ -100,8 +108,33 @@ class TournamentParticipant(models.Model): # TEST PENDING
         return f'The player {self.player.__str__()} participates in the tournament "{self.tournament.__str__()}" using the deck "{self.deck.__str__()}".'
         
 class Duel(models.Model):
-    winner=models.ForeignKey(Player,on_delete=models.PROTECT, related_name='winned_duels')
-    loser=models.ForeignKey(Player,on_delete=models.PROTECT, related_name='losed_duels')
-    tournament=models.ForeignKey(Tournament,on_delete=models.PROTECT)
+    RESULTS={
+        'player1':'player1',
+        'player2':'player2',
+        'tie':'tie',
+    }
+    player1=models.ManyToManyField(Player, related_name='was_player1')
+    player2=models.ManyToManyField(Player, related_name='was_player2')
+    tournament=models.ManyToManyField(Tournament,related_name='duels')
     date=models.DateTimeField()
     tournament_phase=models.CharField(max_length=200)
+    winner=models.CharField(max_length=7,choices=RESULTS)
+    
+    def get_winner(self):
+        if self.winner == 'player1':
+            return self.player1
+        if self.winner == 'player2':
+            return self.player2
+        else:
+            return 'It was a tie'
+        
+    def get_loser(self):
+        if self.winner == 'player1':
+            return self.player2
+        if self.winner == 'player2':
+            return self.player1
+        else:
+            return 'It was a tie'
+        
+    def __str__(self):
+        return f'The player {self.player1} faced {self.player2} in the tournament: "{self.tournament}" in the {self.tournament_phase}.'
