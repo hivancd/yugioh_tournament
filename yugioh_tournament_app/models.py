@@ -23,7 +23,9 @@ class Player(models.Model):
         p = Player(first_name=first_name,last_name=last_name,second_last_name=second_last_name,province=province,municipality=municipality,phone=phone,address=address)
         p.save()
     
-    
+    def add_deck(self,deck_name,main_deck,side_deck,extra_deck,archtype='Mixto'):
+        Deck.insert_deck(deck_name,main_deck,side_deck,extra_deck,self,archtype)
+        
     def is_valid_phonenumber(phone):
         if phone:
             try:
@@ -52,6 +54,10 @@ class Deck(models.Model):
     extra_deck=models.PositiveIntegerField(validators=[MaxValueValidator(AMMOUNT_OF_CARDS_PER_DECK_TYPE['extra_deck'])])
     archtype=models.CharField(max_length=200,default='Mixto')
     player=models.ForeignKey(Player,on_delete=models.CASCADE, related_name='decks')
+        
+    def insert_deck(deck_name,main_deck,side_deck,extra_deck,owner,archtype='Mixto'):
+        d=Deck(deck_name=deck_name,main_deck=main_deck,side_deck=side_deck,extra_deck=extra_deck,player=owner,archtype=archtype)
+        d.save()
         
     def __str__(self):
         return self.deck_name
