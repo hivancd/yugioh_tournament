@@ -1,3 +1,4 @@
+from typing import Any
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.core.exceptions import ValidationError
@@ -24,6 +25,9 @@ class Player(models.Model):
     municipality=models.CharField(max_length=200)
     phone=models.CharField(max_length=15,blank=True)
     address=models.CharField(max_length=200)
+    
+    def del_player(self):
+        return self.user.delete()
     
     def insert(username,password,first_name,last_name,second_last_name,province,municipality,phone,address,is_staff=False):
         if(username[0]=='@'):
