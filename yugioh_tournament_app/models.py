@@ -18,7 +18,6 @@ def copy_fields(original,copy):
 class Player(models.Model):
             
     # EN EL MODELO USER VIENEN PROPS DE USERNAME, FIRST_NAME, LAST_NAME, IS_STAFF, PASSWORD, ETC
-    # Esas nos interesan
     user=models.OneToOneField(User, on_delete=models.CASCADE)
     second_last_name=models.CharField(max_length=200)
     province=models.CharField(max_length=200)
@@ -139,12 +138,15 @@ class Tournament(models.Model):
         t=Tournament(tournament_name=name,start_datetime=start_datetime,address=address,champion=champion)
         t.save()
     
-    def check_champion_is_participant(self,champion):
+    def check_champion_is_participant(self,champion) -> bool:
         participants= self.participants.all()
-        print(participants)
+        return champion in participants
         
-    def set_champion(self,player):
-        self.check_champion_is_participant(player)
+    def set_champion(self, player:Player):
+        if self.check_champion_is_participant(player):
+            self.champion=player
+            return
+        raise ValidationError(f'Tried to set {player.user.username} as a champion in {self.tournament_name} but he is not a participant.')
         
     
 class TournamentParticipant(models.Model): # TEST PENDING
