@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+{% extends "yugioh_tournament_app/common_template.html" %}
+
+<head>
+    {% block title %}
+        <h1>Manual</h1>
+    {% endblock %}
+</head>
+
+<body>
+    {{ message }}
+    {% block content %}
+        <title>Manual</title>
+        <br>
+        <div>
+            Aquí iría el manual de usuario, mayormente texto, con algunas imágenes de ser necesario. Los administradores verían 
+            secciones especiales, además de las usuales, explicando lo que pueden hacer que los usuarios normales no.
+        </div>
+    {% endblock %}
+</body>
+
+</html>

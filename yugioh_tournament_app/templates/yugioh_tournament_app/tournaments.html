@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+    </style>
+
+    {% extends "yugioh_tournament_app/common_template.html" %}
+
+    {% block title %}
+        <h1>Tournaments</h1>
+    {% endblock %}
+</head>
+
+<body>
+{% block content %}
+    {% for message in messages %}
+    <div>
+      <p style="color:  green;">{{ message }}</p>
+    </div>
+    {% endfor %}
+    <hr>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>Address</th>
+            <th>Champion</th>
+        </tr>
+        {% for tournament in page_obj %}  <!-- Loop over the tournaments in the current page -->
+            <tr>
+                <td>{{ tournament.tournament_name }}</td>
+                <td>{{ tournament.start_datetime }}</td>
+                <td>{{ tournament.address }}</td>
+                <td>{{ tournament.champion }}</td>
+                <td>
+                    <a href="{% url 'add_duel' tournament.id %}">
+                        <button>Add Duel</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %} 
+    </table>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+    <a href="{% url 'create_tournament' %}">Create Tournament</a>
+{% endblock %}
+</body>
+
+</html>

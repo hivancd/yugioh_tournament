@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Players</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+    </style>
+
+    {% extends "yugioh_tournament_app/common_template.html" %}
+
+    {% block title %}
+        <h1>Statistics</h1>
+    {% endblock %}
+</head>
+<body>
+    
+    {% block content %}
+        {{ message }}
+        <title>Statistics</title>
+        <br>
+        <h1>Players</h1>
+        <hr>
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Last Name</th>
+                <th>Provincia</th>
+                <th>Municipio</th>
+                <th>Phone</th>
+                <th>Address</th>
+            </tr>
+            {% for player in page_obj %}
+                </tr>
+                    <td>{{ player.user.username }}</td>
+                    <td>{{ player.second_last_name }}</td>
+                    <td>{{ player.province }}</td>
+                    <td>{{ player.municipality }}</td>
+                    <td>{{ player.phone }}</td>
+                    <td>{{ player.address }}</td>
+                    <td> <button>Edit</button> </td>
+                </tr>
+            {% endfor %} 
+        </table>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}">Next</a>
+        {% endif %}
+    {% endblock %}
+</body>

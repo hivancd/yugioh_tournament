@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decks</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+    </style>
+
+    {% extends "yugioh_tournament_app/common_template.html" %}
+
+    {% block title %}
+        <h1>Decks</h1>
+    {% endblock %}
+</head>
+
+<body>
+{{ message }}
+{% block content %}
+    {% for message in messages %}
+    <div>
+      <p style="color:  green;">{{ message }}</p>
+    </div>
+    {% endfor %}
+    <hr>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Main Deck Size</th>
+            <th>Side Deck Size</th>
+            <th>Extra Deck Size</th>
+            <th>Archtype</th>
+        </tr>
+        {% for deck in page_obj %}  <!-- Loop over the decks in the current page -->
+            </tr>
+                <td>{{ deck.deck_name }}</td>
+                <td>{{ deck.main_deck }}</td>
+                <td>{{ deck.side_deck }}</td>
+                <td>{{ deck.extra_deck }}</td>
+                <td>{{ deck.archtype }}</td>
+                <td> 
+                    <a href="{% url 'edit_deck' deck.id %}">
+                        <button>Edit</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %} 
+    </table>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">Next</a>
+    {% endif %}
+    <a href="{% url 'create_deck' %}">Create Deck</a>
+{% endblock %}
+</body>
+
+</html>

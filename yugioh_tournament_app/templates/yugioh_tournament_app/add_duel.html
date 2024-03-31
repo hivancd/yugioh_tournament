@@ -1,0 +1,17 @@
+{% extends "yugioh_tournament_app/common_template.html" %}
+
+{% block content %}
+  <h1>Add Match</h1>
+  <!-- Add this block to display messages -->
+    {% for message in messages %}
+    <div>
+      <p style="color:  green;">{{ message }}</p>
+    </div>
+  {% endfor %}
+    
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Duel</button>
+  </form>
+{% endblock %}

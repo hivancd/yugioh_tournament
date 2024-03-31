@@ -1,0 +1,15 @@
+{% extends "yugioh_tournament_app/common_template.html" %}
+
+{% block content %}
+  <h2>Create Deck</h2>
+  {% for message in messages %}
+    <div>
+      <p style="color:  green;">{{ message }}</p>
+    </div>
+  {% endfor %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Deck</button>
+  </form>
+{% endblock %}

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+{% extends "yugioh_tournament_app/common_template.html" %}
+
+<head>
+    {% block title %}
+        <h1>Main</h1>
+    {% endblock %}
+</head>
+
+<body>
+    {% block content %}
+        {% for message in messages %}
+        <div>
+            <p style="color:  green;">{{ message }}</p>
+        </div>
+    {% endfor %}
+        <title>Main</title>
+        <br>
+        Esta sería una página de presentación, explicando brevemente cuál es el objetivo de esta página, etc.
+    {% endblock %}
+</body>
+
+</html>
