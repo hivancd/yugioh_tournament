@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournaments</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+        .next_prev{
+            margin-left: 3mm; 
+            font-size: 7mm; 
+            background-color: blanchedalmond;
+            border-radius: 1mm;
+        }
+        .next_prev:hover{
+            background-color: rgb(238, 103, 103);
+        }
+        .custom_table{
+            background-color: aliceblue;
+        }
+        .create{
+            margin-left: 3mm; 
+            font-size: 7mm; 
+            background-color: rgb(129, 255, 160);
+            border-radius: 1mm;
+        }
+        .create:hover{
+            background-color: rgb(131, 202, 0);
+        }
+    </style>
+
+    {% extends "common_template.html" %}
+</head>
+
+<body>
+{{ message }}
+{% block content %}
+    <hr>
+    <h1 style="margin-left: 3mm;">Tournaments</h1>
+    <hr>
+
+    <form method="GET" style="margin-left: 3mm;">
+        <label for="dropdownName">Search By:</label>
+        <select name="dropdownName" selected="{{ dropdown_option }}">
+            <option value="name" {% if dropdown_option == "name" %} selected {% endif %}>Name</option>
+            <option value="address" {% if dropdown_option == "address" %} selected {% endif %}>Address</option>
+        </select>
+        <br>
+        <br>
+        <input type="text" name="q" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <br>
+
+    <table style="margin-left: 3mm;">
+        <tr>
+            <th class="custom_table">Name</th>
+            <th class="custom_table">Start Date</th>
+            <th class="custom_table">Address</th>
+            <th class="custom_table">Champion</th>
+        </tr>
+        {% for tournament in page_obj %}  <!-- Loop over the tournaments in the current page -->
+            <tr>
+                <td class="custom_table">
+                    <a href="{% url 'tournament_details' tournament.id %}">
+                        {{ tournament.tournament_name }}
+                    </a>
+                </td>
+                <td class="custom_table">{{ tournament.start_datetime }}</td>
+                <td class="custom_table">{{ tournament.address }}</td>
+                <td class="custom_table">{{ tournament.champion }}</td>
+            </tr>
+        {% endfor %} 
+    </table>
+    &nbsp
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="next_prev">Previous</a>
+        &nbsp
+    {% endif %}
+    
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="next_prev">Next</a>
+    {% endif %}
+    <br>
+    <br>
+    {% if user.is_superuser %}
+        <a href="{% url 'create_tournament' %}" class="create">Create Tournament</a>
+    {% endif %}
+{% endblock %}
+</body>
+
+</html>

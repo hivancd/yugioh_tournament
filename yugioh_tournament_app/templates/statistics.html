@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+        .custom_table{
+            background-color: aliceblue;
+        }
+    </style>
+
+    {% extends "common_template.html" %}
+</head>
+<body>
+    {% block content %}
+        <hr>
+        <h1 style="margin-left: 3mm;">Statistics</h1>
+        <hr>
+        
+        <!--- MOST DECKS --->
+        <h2 style="margin-left: 3mm;">Most Decks Players</h1>
+        <a href="{% url 'download_statistics' 0 %}" style="margin-left: 3mm;">Generate PDF</a>
+
+        <table style="margin-left: 3mm;">
+            <tr>
+                <th class="custom_table">Player Name</th>
+                <th class="custom_table">Deck Count</th>
+            </tr>
+            {% for player in most_decks %}
+                </tr>
+                    <td  class="custom_table">{{ player.user.username }}</td>
+                    <td  class="custom_table">{{ player.num_decks }}</td>
+                </tr>
+            {% endfor %} 
+        </table>
+                
+        <!--- Popular ARCH --->
+        <h2 style="margin-left: 3mm;">Popular Archtypes</h1>
+        <a href="{% url 'download_statistics' 1 %}" style="margin-left: 3mm;">Generate PDF</a>
+        <table style="margin-left: 3mm;">
+            <tr>
+                <th class="custom_table">Archtype</th>
+                <th class="custom_table">Count</th>
+            </tr>
+            {% for arch in popular_arch %}
+                </tr>
+                    <td class="custom_table">{{ arch.archtype }}</td>
+                    <td class="custom_table">{{ arch.count }}</td>
+                </tr>
+            {% endfor %} 
+        </table>
+
+
+    {% endblock %}
+</body>

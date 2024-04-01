@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Players</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+        .custom_table{
+            background-color: aliceblue;
+        }
+    </style>
+
+    {% extends "common_template.html" %}
+</head>
+<body>
+    
+    {% block content %}
+        <hr>
+        <h1>Confirm participation to players</h1>
+        <hr>
+
+        <table>
+            <tr>
+                <th class="custom_table">Name</th>
+                <th class="custom_table">Tournament</th>
+                <th class="custom_table">Deck</th>
+            </tr>
+            {% for participant in unconfirmed_participants %}
+                <tr>
+                    <td class="custom_table">{{participant.deck.player.user.username}}</td>
+                    <td class="custom_table">{{participant.tournament.tournament_name}}</td>
+                    <td class="custom_table">{{participant.deck.deck_name}}</td>
+                    <td class="custom_table"> 
+                        <a href="{% url 'confirm_participation_action' participant.id %}">
+                            <button>Confirm</button>
+                        </a>
+                    </td>
+                </tr>   
+            {% endfor %} 
+        </table>
+    {% endblock %}
+</body>

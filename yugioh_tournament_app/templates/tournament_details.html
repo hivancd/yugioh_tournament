@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    {% extends "common_template.html" %}
+    
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tournament</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    
+    {% block content %}
+        <hr>
+        <h1>Tournament: {{ tournament_info.tournament_name }}</h1>
+        
+        <hr>    
+        <h1>Registration:</h1>
+        {% if not already_in_tournament %}
+            You are not registered in this tournament!!!! What in the world are you waiting for???!!!
+            <br>
+            <br>
+            <form method="POST">
+                {% csrf_token %}
+                <label for="dropdownName">Choose a deck:</label>
+                <select name="dropdownName" selected="{{ dropdown_option }}">
+                    {% for deck in decks %}
+                        <option value = "{{ deck.id }}">{{ deck.deck_name }}</option>
+                    {% endfor %}
+                </select>
+                &nbsp
+                <button type="submit">Request Registration</button>
+            </form>
+        {% else %}
+            You already requested 
+        {% endif %}
+        
+        {% if user.is_superuser %}
+            <hr>        
+            <h1>Update Tournament (As admin):</h1>
+            <a href="{% url 'add_duel' tournament_info.id %}">
+                <button>Add Match</button>
+            </a>
+            <a href="{% url 'close_tournament' tournament_info.id %}">
+                <button>Close (Select Champion)</button>
+            </a>
+        {% endif %}
+        
+        <hr>
+        <h1>Accepted Participants:</h1>
+            {% for participant in participants %}
+                {% if participant.deck.player.user.id is user.id %}
+                    <a style="font-size: 6mm; color: rgb(255, 0, 0);">
+                        {{participant.deck.player.user.username}} with deck {{participant.deck.deck_name}}
+                    </a>
+                {% else %}
+                    <a style="font-size: 6mm;">
+                        {{participant.deck.player.user.username}} with deck {{participant.deck.deck_name}}
+                    </a>
+                {% endif %}
+                <br>
+            {% endfor %}
+
+        <hr>
+        <h1>Matches:</h1>
+        {% for match in matches %}
+            <a style="font-size: 6mm;">
+                {{match.player1.user.username}} fights against {{match.player2.user.username}}. {{match.winner1}}-{{match.winner2}}
+            </a>
+            <br>
+        {% endfor %}
+
+
+    {% endblock %}
+</body>

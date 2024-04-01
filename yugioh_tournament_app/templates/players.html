@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Players</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+        .custom_table{
+            background-color: aliceblue;
+        }
+        .next_prev{
+            margin-left: 3mm; 
+            font-size: 7mm; 
+            background-color: blanchedalmond;
+            border-radius: 1mm;
+        }
+        .next_prev:hover{
+            background-color: rgb(238, 103, 103);
+        }
+    </style>
+
+    {% extends "common_template.html" %}
+</head>
+<body>
+    
+    {% block content %}
+
+        <hr>
+        <h1 style="margin-left: 3mm;">Players</h1>
+        <hr>
+        
+        <form method="GET">
+            <label for="dropdownName" style="margin-left: 3mm;">Search By:</label>
+            <select name="dropdownName" selected="{{ dropdown_option }}">
+                <option value="name" {% if dropdown_option == "name" %} selected {% endif %}>Name</option>
+                <option value="lastName" {% if dropdown_option == "lastName" %} selected {% endif %}>Last Name</option>
+                <option value="provincia" {% if dropdown_option == "provincia" %} selected {% endif %}>Provincia</option>
+                <option value="municipio" {% if dropdown_option == "municipio" %} selected {% endif %}>Municipio</option>
+                <option value="address" {% if dropdown_option == "address" %} selected {% endif %}>Address</option>
+            </select>
+            <br>
+            <br>
+            <input type="text" name="q" value="{{ query }}" style="margin-left: 3mm;">
+            <button type="submit">Search</button>
+        </form>
+
+        <br>
+        <table style="margin-left: 3mm;">
+            <tr>
+                <th class="custom_table">Name</th>
+                <th class="custom_table">Last Name</th>
+                <th class="custom_table">Provincia</th>
+                <th class="custom_table">Municipio</th>
+                <th class="custom_table">Phone</th>
+                <th class="custom_table">Address</th>
+                <th class="custom_table">Is Admin</th>
+            </tr>
+            {% for player in page_obj %}
+                </tr>
+                    <td class="custom_table">{{ player.user.username }}</td>
+                    <td class="custom_table">{{ player.second_last_name }}</td>
+                    <td class="custom_table">{{ player.province }}</td>
+                    <td class="custom_table">{{ player.municipality }}</td>
+                    <td class="custom_table">{{ player.phone }}</td>
+                    <td class="custom_table">{{ player.address }}</td>
+                    <td class="custom_table">{{ player.user.is_superuser }}</td>
+                    
+                    {% if user.is_superuser and not player.user.is_superuser and not player.user == user %}
+                        <td class="custom_table"> 
+                            <a href="{% url 'make_admin' player.user.id %}">
+                                <button>Make Admin</button>
+                            </a>
+                        </td>
+                    {% elif user.is_superuser and not player.user == user%}
+                        <td class="custom_table"> 
+                            <a href="{% url 'revoke_admin' player.user.id %}">
+                                <button>Revoke Admin</button>
+                            </a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %} 
+        </table>
+        <br/>
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="next_prev">Previous</a>
+            &nbsp
+        {% endif %}
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="next_prev">Next</a>
+        {% endif %}
+        <br/>
+    {% endblock %}
+</body>

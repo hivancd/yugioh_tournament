@@ -1,0 +1,16 @@
+
+{% extends "common_template.html" %}
+
+{% block content %}
+<body>
+    <h1 style="margin: 3mm;">Edit Profile</h1>
+
+    <form method="post" style="margin: 3mm; font-size: 5mm;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Update Profile</button>
+    </form>
+    &nbsp
+</body>
+
+{% endblock %}

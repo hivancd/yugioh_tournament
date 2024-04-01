@@ -1,0 +1,12 @@
+{% extends "common_template.html" %}
+
+{% block content %}
+  <h1>Add Match</h1>
+  <!-- Add this block to display messages -->
+    
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Match</button>
+  </form>
+{% endblock %}
