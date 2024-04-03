@@ -1,0 +1,10 @@
+{% extends "common_template.html" %}
+
+{% block content %}
+  <h2>Create Deck</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Deck</button>
+  </form>
+{% endblock %}

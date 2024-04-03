@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+    
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decks</title>
+    <style>
+        table {
+            border-collapse: separate;
+        }
+        th, td {
+            border: 2px solid #333;
+            padding: 8px;
+        }
+        .next_prev{
+            margin-left: 3mm; 
+            font-size: 7mm; 
+            background-color: blanchedalmond;
+            border-radius: 1mm;
+        }
+        .next_prev:hover{
+            background-color: rgb(238, 103, 103);
+        }
+        .create{
+            margin-left: 3mm; 
+            font-size: 7mm; 
+            background-color: rgb(129, 255, 160);
+            border-radius: 1mm;
+        }
+        .create:hover{
+            background-color: rgb(131, 202, 0);
+        }
+        .custom_table{
+            background-color: aliceblue;
+        }
+    </style>
+
+    {% extends "common_template.html" %}
+
+</head>
+
+<body>
+{{ message }}
+{% block content %}
+    <hr>
+    <h1 style="margin-left: 3mm;">My Decks</h1>
+    <hr>
+
+    <form method="GET" style="margin-left: 3mm;">
+        <input type="text" name="q" value="{{ query }}">
+        <button type="submit">Search</button>
+    </form>
+    <table style="margin-left: 3mm;">
+        <tr>
+            <th class="custom_table">Name</th>
+            <th class="custom_table">Main Deck Size</th>
+            <th class="custom_table">Side Deck Size</th>
+            <th class="custom_table">Extra Deck Size</th>
+            <th class="custom_table">Archtype</th>
+        </tr>
+        {% for deck in page_obj %}
+            </tr>
+                <td class="custom_table">{{ deck.deck_name }}</td>
+                <td class="custom_table">{{ deck.main_deck }}</td>
+                <td class="custom_table">{{ deck.side_deck }}</td>
+                <td class="custom_table">{{ deck.extra_deck }}</td>
+                <td class="custom_table">{{ deck.archtype }}</td>
+                <td class="custom_table"> 
+                    <a href="{% url 'edit_deck' deck.id %}">
+                        <button>Edit</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %} 
+    </table>
+    {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="next_prev">Previous</a>
+    {% endif %}
+    {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="next_prev">Next</a>
+    {% endif %}
+    <br>
+    <a href="{% url 'create_deck' %}" class="create">Create Deck</a>
+    
+{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,90 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+  
+    <style>
+      .header {
+        display: flex;
+        justify-content: space-between;
+      }
+      .header_text {
+        background-color: rgb(223, 224, 132);
+        border-radius: 1mm;
+      }
+      .header_text:hover {
+        background-color: rgb(238, 103, 103);
+        border-radius: 1mm;
+      }
+      .head_parent{
+        background-image: url("{% static 'h_back.jpg' %}");
+        background-repeat: no-repeat;
+        background-size: cover;
+        font-size: 6mm;
+        border-radius: 3mm;
+      }
+      body{
+        background-image: url("{% static 'background_card_arcv.png' %}");
+        background-repeat: repeat;
+      }
+      .body_custom{
+        background-color: rgba(255, 255, 255, 0.425);
+      }
+      .left {
+        order: 1;
+      }
+      .right {
+        order: 2;
+      }
+    </style>
+    
+    <div class="head_parent">
+      <h1 style="text-align: center; color: rgb(255, 215, 215);">Torneos de Yu-Gi-Oh!!!!</h1>
+      <div class="header">
+        <div class="left">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <br />
+          &nbsp
+          <a href="/" class="header_text">&nbsp Main &nbsp</a>
+          &nbsp
+          <a href="/tournaments" class="header_text">&nbsp Tournaments &nbsp</a>
+          &nbsp
+          <a href="/deck_list" class="header_text">&nbsp My Decks &nbsp</a>
+          &nbsp
+          <a href="/players" class="header_text">&nbsp Players &nbsp</a>
+          &nbsp
+          <a href="/statistics" class="header_text">&nbsp Statistics &nbsp</a>
+          &nbsp
+          <a href="/manual" class="header_text">&nbsp Manual &nbsp</a>
+          &nbsp
+          &nbsp
+          &nbsp
+          {% if user.is_superuser %}
+            <a href="/confirm_participation" class="header_text">&nbsp Confirm participation to players &nbsp</a>
+          {% endif %}
+        </div>
+      
+        <div class="right">
+          <a style="background-color: aliceblue; border-radius: 1mm;">&nbsp Currently loged as: {{user.username}} &nbsp</a> &nbsp &nbsp &nbsp 
+          <a href="{% url 'edit_profile' %}" class="header_text">&nbsp Edit Profile &nbsp</a>
+          &nbsp
+          <a href="{% url 'logout' %}" class="header_text">&nbsp Logout &nbsp</a>&nbsp
+        </div>
+      </div>
+
+      &nbsp
+    </div>
+    
+    <br/>
+  </head>
+
+  <div class="body_custom">
+    <body>
+      
+        {% block content %}
+
+        {% endblock %}
+      
+    </body>
+  </div>
+</html>

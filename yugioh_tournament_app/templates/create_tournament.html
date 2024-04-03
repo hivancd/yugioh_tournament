@@ -1,0 +1,11 @@
+{% extends "common_template.html" %}
+
+{% block content %}
+  <h2>Create Tournament</h2>
+  {{ message }}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Tournament</button>
+  </form>
+{% endblock %}

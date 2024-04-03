@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+{% extends "common_template.html" %}
+
+
+<body>
+    
+    {% block content %}
+    <title>Manual</title>    
+    <hr>
+        <h1 style="margin-left: 3mm;">Manual</h1>
+        <hr>
+        <br>
+        <div style="font-size: 7mm;">
+            <h2> Manual de Usuario: </h2>
+            Este sitio está diseñado para que sea bastante intuitivo de utilizar, así que seremos breves.
+            La pestaña más importante es "Tournament", donde usted puede ver los torneos pasados, presentes y futuros,
+            con algunos datos de los mismos, así como hacer click en cualquiera de ellos para ver información más detallada.
+            En esta página de información más detallada, usted puede pedir ser inscrito en un torneo; una vez un administrador
+            haya confirmado dicha inscripción, usted verá su nombre en la lista de participantes, junto con el deck de su elección, 
+            resaltado en rojo.
+            
+            En la pestaña "My Decks" usted puede crearse y editar decks, eligiendo su nombre, arquetipo y demás parámetros, así como buscar 
+            un deck en específico por nombre.
+            Pude ver en la pesaña "Players" la lista de todos los jugadores actualmente inscritos, con algunos datos de los mismos.
+            En "Statistics" se ven estadísticas varias de la página.
+            A la derecha hay otras dos pestañas: "Edit Profile" para cambiar información clave de su perfil, y "Logout", si quiere cerrar su sesión en el sitio.
+
+
+            {% if user.is_superuser %}
+                <h2> Manual de Administrador: </h2>
+                Como administrador, usted tiene dos tareas fundamentales: confirmar a un usuario su entrada a un torneo (en la pestaña "Confirm participation to players"), 
+                y crear, actualizar, o cerrar torneos (tendrá opciones en la página de detalles del torneo para hacer esto). Cerrar un torneo equivale a
+                anunciar un ganador del mismo. Usted como administrador podrá también hacer administrador a otros usuarios, o revocar los permisos de administrador
+                a los mismos, esto en la pestaña "Players".
+            {% endif %}
+        </div>
+    {% endblock %}
+</body>
+
+</html>

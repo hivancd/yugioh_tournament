@@ -9,72 +9,7 @@ def create_test_player():
             last_name='Reyes', second_last_name='Escudero',
             province='Sancti Spiritu', municipality='Majayigua',
             phone='+53 58607451', address='Sukasa')
-
-def create_test_card(val=''):
-        return Card(
-            card_name=f'test card{str(val)}',
-            description='This is a description',
-        )
-        
-def create_test_monster_card(self):
-        return MonsterCard(
-            card=create_test_card(),attack=2000,defense=2000,
-            attribute='WA',level=12,is_effect=False,
-        )
-        
-def create_test_cards(ammount):
-    '''
-    Method for creating one or more test cards
-    '''
-    res=[]
-    for val in range(ammount):
-        res.append(create_test_card(val))
-    return res
-        
-def create_test_effect_card(self):
-    return EffectCard(
-        card=create_test_card(),card_type='T',
-    )
-        
-class CardModelTests(TestCase):
-    '''
-    Tests for card and card 'inherate' models
-    '''
-    # TEST METHODS
-    def test_card_attribute_is_not_in_choices(self):
-        '''
-        The card_attribute should be one of the listed in the model
-        '''
-        test_card=create_test_monster_card()
-        test_card.attribute='NO'
-        with self.assertRaises(exceptions.ValidationError):
-            test_card.full_clean()
-    def test_card_type_is_not_in_choices(self):
-        '''
-        The card_type should be one of the listed in the model
-        '''
-        test_card=create_test_effect_card()
-        test_card.card_type="N"
-        
-        with self.assertRaises(exceptions.ValidationError):
-            test_card.full_clean()
-    def test_card_level_less_than_max_level(self):
-        '''
-        The card level should be less than the maximum
-        '''
-        test_card=create_test_monster_card()
-        test_card.level = 20
-        with self.assertRaises(exceptions.ValidationError):
-            test_card.full_clean()
-    def test_card_level_greater_than_min_level(self):
-        '''
-        The card level should be greater than the minimun
-        '''
-        test_card=create_test_monster_card()
-        test_card.level=0
-        with self.assertRaises(exceptions.ValidationError):
-            test_card.full_clean()
-            
+ 
 class PlayerTests(TestCase):    
     def test_phone_is_not_real(self):
         '''

@@ -1,0 +1,1 @@
+cmd /k C:\Franco\franco\.python_enviroment_311\Scripts\activate
